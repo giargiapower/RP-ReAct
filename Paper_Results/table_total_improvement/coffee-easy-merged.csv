@@ -1,0 +1,4 @@
+Agent Type,Qwen3-14B,Qwen3-32B,gpt-oss:20b,gpt-oss:120b
+Reasoner,0.65,0.78,0.43,0.78
+Reflexion,0.49,0.74,0.08,0.8
+React,0.67,0.72,0.05,0.78
