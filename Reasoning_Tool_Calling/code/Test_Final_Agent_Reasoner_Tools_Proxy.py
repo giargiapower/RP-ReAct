@@ -14,7 +14,7 @@ from tools.math import calculator
 from tools.text import agenda_retriever, scirex_retriever
 from tools.table import tabtools
 from tools.graph import graphtools
-from tools.code import sql_fake, python_interpreter_mod
+from tools.code import sql_fake, python_interpreter_mod, sql_interpreter
 from vllm import LLM, SamplingParams
 import tools.table.tabtools as tabletools
 
@@ -338,7 +338,7 @@ class ReactAgentLocal:
 
             elif action_type == 'SQLInterpreter':
                 try:
-                    observation = sql_fake.execute(argument)
+                    observation = sql_interpreter.execute(argument)
                     if (len(self.enc.encode(observation)) > 100):
                         observation = observation[:100]+"...(truncated). The full sql_result is too long to fit in observation so the entire sql_result is stored in variable: "
                         var_name = "sql_result"

@@ -15,7 +15,7 @@ from tools.math import calculator
 from tools.text import agenda_retriever, scirex_retriever
 from tools.table import tabtools
 from tools.graph import graphtools
-from tools.code import sql_fake, python_interpreter
+from tools.code import sql_fake, python_interpreter, sql_interpreter
 from vllm import LLM, SamplingParams
 import tools.table.tabtools as tabletools
 
@@ -248,7 +248,7 @@ class ReactAgentLocal:
 
             elif action_type == 'SQLInterpreter':
                 try:
-                    self.scratchpad += sql_fake.execute(argument)
+                    self.scratchpad += sql_interpreter.execute(argument)
                 #except openai.error.RateLimitError:
                 #    self.scratchpad += f'OpenAI API Rate Limit Exceeded. Please try again.'
                 except:

@@ -20,7 +20,7 @@ BASE_PATH="/leonardo_scratch/fast/IscrC_EAGLE-DE/gianni/Agent_design_architectur
 MODEL="Qwen3-32B"
 TP_SIZE=1
 OUTPUT_DIR="output_react"
-PATTERN="React"
+PATTERN="React" # Reflexion 
 
 # Create the output directory if it doesn't exist
 mkdir -p "$OUTPUT_DIR"
