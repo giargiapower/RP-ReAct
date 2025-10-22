@@ -21,7 +21,12 @@ import tools.table.tabtools as tabletools
 
 STOP_TOKENS_THOUGHT = [".", "Action"]
 STOP_TOKENS_ACTION = ["]"]
-db_glbl = tabletools.table_toolkits("/leonardo_scratch/fast/IscrC_EAGLE-DE/gianni/Agent_design_architectures/ToolQA")
+script_dir = os.path.dirname(os.path.abspath(__file__))
+# Navigate up from /.../RP-ReAct/Reasoning_Tool_Calling/code to /.../
+base_project_dir = os.path.abspath(os.path.join(script_dir, '..'))
+#toolqa_path = os.path.join(base_project_dir, 'ToolQA')
+
+db_glbl = tabletools.table_toolkits(base_project_dir)
 db_used = {
     "flights": (None, "", False),
     "coffee": (None, "", False),
@@ -59,11 +64,12 @@ class ReactAgentLocal:
                  ) -> None:
         self.question = ""
         self.answer = ""
+        self.path = args.path
         self.key = ""
         self.max_steps = max_steps
         self.scratchpad = ""
         self.agent_prompt = agent_prompt
-        self.db = tabletools.table_toolkits("/leonardo_scratch/fast/IscrC_EAGLE-DE/gianni/Agent_design_architectures/ToolQA")
+        self.db = tabletools.table_toolkits(args.path)
         self.db_toolkit = db_glbl
         if args.prompt == "easy":
             self.react_examples = TOOLQA_EASY8
@@ -81,7 +87,7 @@ class ReactAgentLocal:
             if db_name == "flight":
                 db_name = "flights"
             print(f"Loading database: {db_name}")
-            db_temp = tabletools.table_toolkits("/leonardo_scratch/fast/IscrC_EAGLE-DE/gianni/Agent_design_architectures/ToolQA")
+            db_temp = tabletools.table_toolkits(args.path)
             # Load the database using the global toolkit
             columns = db_temp.db_loader(db_name)
             # Store the loaded data and columns from the global toolkit into the db_used dictionary
@@ -170,7 +176,7 @@ class ReactAgentLocal:
                     toolkit, columns_str, loaded = db_used.get(argument, (None, "", False))
                     if toolkit is None:
                         # create a new toolkit and load columns
-                        toolkit = tabletools.table_toolkits(args.path)
+                        toolkit = tabletools.table_toolkits(self.path)
                         columns_str = toolkit.db_loader(argument)
                         db_used[argument] = (toolkit, columns_str, True)
                     # switch this agent to that toolkit
@@ -316,6 +322,7 @@ class ReflexionAgentLocal:
                  ) -> None:
         self.reflexion_steps = reflexion_steps
         self.question = ""
+        self.path = args.path
         self.answer = ""
         self.key = ""
         self.max_steps = max_steps
@@ -323,7 +330,7 @@ class ReflexionAgentLocal:
         self.evaluator_prompt = evaluator_prompt
         self.self_refiner_prompt = self_refiner_prompt
         self.db_toolkit = db_glbl
-        self.db = tabletools.table_toolkits("/leonardo_scratch/fast/IscrC_EAGLE-DE/gianni/Agent_design_architectures/ToolQA")
+        self.db = tabletools.table_toolkits(args.path)
         if args.prompt == "easy":
             self.react_examples = TOOLQA_EASY8
         else:
@@ -340,7 +347,7 @@ class ReflexionAgentLocal:
             if db_name == "flight":
                 db_name = "flights"
             print(f"Loading database: {db_name}")
-            db_temp = tabletools.table_toolkits("/leonardo_scratch/fast/IscrC_EAGLE-DE/gianni/Agent_design_architectures/ToolQA")
+            db_temp = tabletools.table_toolkits(args.path)
             # Load the database using the global toolkit
             columns = db_temp.db_loader(db_name)
             # Store the loaded data and columns from the global toolkit into the db_used dictionary
@@ -455,7 +462,7 @@ class ReflexionAgentLocal:
                     toolkit, columns_str, loaded = db_used.get(argument, (None, "", False))
                     if toolkit is None:
                         # create a new toolkit and load columns
-                        toolkit = tabletools.table_toolkits(args.path)
+                        toolkit = tabletools.table_toolkits(self.path)
                         columns_str = toolkit.db_loader(argument)
                         db_used[argument] = (toolkit, columns_str, True)
                     # switch this agent to that toolkit
@@ -629,6 +636,7 @@ class SelfRefineAgentLocal:
         self.key = ""
         self.last_action = ""
         self.trajectory = "No previous actions"
+        self.path = args.path
         self.feedback = ""
         self.self_refine_instruction = self_refine_instruction
         self.feedback_generator = feedback_generator
@@ -652,7 +660,7 @@ class SelfRefineAgentLocal:
             if db_name == "flight":
                 db_name = "flights"
             print(f"Loading database: {db_name}")
-            db_temp = tabletools.table_toolkits("/leonardo_scratch/fast/IscrC_EAGLE-DE/gianni/Agent_design_architectures/ToolQA")
+            db_temp = tabletools.table_toolkits(args.path)
             # Load the database using the global toolkit
             columns = db_temp.db_loader(db_name)
             # Store the loaded data and columns from the global toolkit into the db_used dictionary
@@ -780,7 +788,7 @@ class SelfRefineAgentLocal:
                     toolkit, columns_str, loaded = db_used.get(argument, (None, "", False))
                     if toolkit is None:
                         # create a new toolkit and load columns
-                        toolkit = tabletools.table_toolkits(args.path)
+                        toolkit = tabletools.table_toolkits(self.path)
                         columns_str = toolkit.db_loader(argument)
                         db_used[argument] = (toolkit, columns_str, True)
                     # switch this agent to that toolkit

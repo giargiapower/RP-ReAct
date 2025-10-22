@@ -20,7 +20,14 @@ import tools.table.tabtools as tabletools
 
 STOP_TOKENS_THOUGHT = [".", "Action"]
 STOP_TOKENS_ACTION = ["]"]
-db_glbl = tabletools.table_toolkits("/leonardo_scratch/fast/IscrC_EAGLE-DE/gianni/Agent_design_architectures/ToolQA")
+# Determine the base path dynamically to locate the ToolQA directory
+# Assumes ToolQA is a sibling directory to RP-ReAct
+script_dir = os.path.dirname(os.path.abspath(__file__))
+# Navigate up from /.../RP-ReAct/Reasoning_Tool_Calling/code to /.../
+base_project_dir = os.path.abspath(os.path.join(script_dir, '..'))
+#toolqa_path = os.path.join(base_project_dir, 'ToolQA')
+
+db_glbl = tabletools.table_toolkits(base_project_dir)
 db_used = {
     "flights": (None, "", False),
     "coffee": (None, "", False),
@@ -63,7 +70,7 @@ class ReactAgentLocal:
             if db_name == "flight":
                 db_name = "flights"
             print(f"Loading database: {db_name}")
-            db_temp = tabletools.table_toolkits("/leonardo_scratch/fast/IscrC_EAGLE-DE/gianni/Agent_design_architectures/ToolQA")
+            db_temp = tabletools.table_toolkits(args.path)
             # Load the database using the global toolkit
             columns = db_temp.db_loader(db_name)
             # Store the loaded data and columns from the global toolkit into the db_used dictionary
