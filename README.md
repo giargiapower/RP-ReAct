@@ -1,9 +1,9 @@
-# Reasoning and Polishing with ReAct (RP-ReAct)
+# Reasoner, Planner - ReAct (RP-ReAct)
 
 This repository contains the implementation of various agent architectures for tool-calling and reasoning tasks, including:
 1.  **ReAct**: A baseline agent using the "Reason and Act" paradigm.
 2.  **Reflexion**: An agent that incorporates self-reflection on past failures to improve subsequent attempts.
-3.  **RP-ReAct (Reasoning-Polishing ReAct)**: A novel approach that uses a self-refining mechanism on each generated action *before* execution, allowing the agent to "polish" its reasoning process in real-time.
+3.  **RP-ReAct (Reasoner Planner-ReAct)**: A novel two-agent framework that fundamentally decouples strategic planning from low-level execution to achieve superior reliability and efficiency
 
 The agents are benchmarked against the **ToolQA** dataset.
 
